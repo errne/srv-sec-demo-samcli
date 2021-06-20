@@ -11,14 +11,14 @@ Metadata:
   AWS::ServerlessRepo::Application:
     Name: serverless-security-demo
     Description: Simple serverless application to demonstrate security concepts
-    Author: Samuel Waymouth
+    Author: Ernest
     SpdxLicenseId: Apache-2.0
     LicenseUrl: LICENSE.txt
     ReadmeUrl: README.md
     Labels: ['tests']
-    HomePageUrl: https://github.com/waymousa/srv-sec-demo-samcli
-    SemanticVersion: 0.0.1
-    SourceCodeUrl: https://github.com/waymousa/srv-sec-demo-samcli
+    HomePageUrl: https://github.com/errne/srv-sec-demo-samcli
+    SemanticVersion: 0.0.2
+    SourceCodeUrl: https://github.com/errne/srv-sec-demo-samcli
 
 Globals:
   Function:
@@ -57,7 +57,7 @@ Resources:
         - AttributeDataType: String
           Name: email
           Required: false
-  
+
   SrvSecDemoCognitoUserPoolClient:
     Type: AWS::Cognito::UserPoolClient
     Properties:
@@ -110,7 +110,7 @@ Resources:
       Environment:
         Variables:
           loglevel: DEBUG
-  
+
   CommandFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
@@ -152,14 +152,14 @@ Resources:
             TableName: !Ref TableOfStuff
 
   WriteToDynamoDBFunction:
-    Type: AWS::Serverless::Function      
+    Type: AWS::Serverless::Function
     Properties:
       CodeUri: security_serverless_demo/
       Handler: wddb.lambda_handler
       Runtime: python3.8
       Events:
         Root:
-          Type: Api 
+          Type: Api
           Properties:
             RestApiId: !Ref SecureApi
             Path: /wddb
@@ -225,21 +225,21 @@ Resources:
   TableOfStuff:
     Type: AWS::DynamoDB::Table
     Properties:
-      KeySchema: 
-          - 
+      KeySchema:
+          -
             AttributeName: "uuid"
             KeyType: "HASH"
           -
             AttributeName: "surname"
             KeyType: "RANGE"
-      AttributeDefinitions: 
-          - 
+      AttributeDefinitions:
+          -
             AttributeName: "uuid"
             AttributeType: "S"
-          - 
+          -
             AttributeName: "surname"
             AttributeType: "S"
-      ProvisionedThroughput: 
+      ProvisionedThroughput:
         ReadCapacityUnits: "5"
         WriteCapacityUnits: "5"
 
